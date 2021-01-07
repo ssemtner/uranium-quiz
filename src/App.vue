@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Navbar/>
-    <RouterView style="margin-top: 80px"/>
+    <transition name="fade" mode="out-in">
+      <RouterView style="margin-top: 80px"/>
+    </transition>
   </div>
 </template>
 
@@ -23,5 +25,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .25s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

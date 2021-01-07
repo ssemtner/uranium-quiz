@@ -35,7 +35,7 @@ export default {
                 displayName: this.displayName,
                 score: this.$store.getters.score,
                 group: "testing"
-              }]
+              }].slice(0, 100)
             })
           })
     }

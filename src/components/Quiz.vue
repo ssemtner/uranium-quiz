@@ -1,6 +1,7 @@
 <template>
   <b-container>
-    <Question/>
+    <b-alert type="primary" show="">Score: {{ $store.getters.score }}</b-alert>
+    <Question v-bind="questions[currentQuestion]"/>
   </b-container>
 </template>
 
@@ -12,8 +13,8 @@ export default {
   name: "Quiz",
   components: {Question},
   computed: {
-    ...mapGetters(["currentQuestion", "questions"])
-  }
+    ...mapGetters(["score", "currentQuestion", "questions"])
+  },
 }
 </script>
 

@@ -7,6 +7,7 @@ const shuffle = require('shuffle-array')
 
 export default new Vuex.Store({
     state: {
+        score: 0,
         currentQuestion: 0,
         questions: [
             {
@@ -17,12 +18,31 @@ export default new Vuex.Store({
                     "Un"
                 ],
                 answer: "U"
+            },
+            {
+                text: "What is the atomic number of Uranium",
+                choices: [
+                    "103",
+                    "87",
+                    "92"
+                ],
+                answer: "92"
+            },
+            {
+                text: "Which isotope of Uranium is the most common in nuclear reactors?",
+                choices: [
+                    "Uranium-232",
+                    "Uranium-399",
+                    "Uranium-235"
+                ],
+                answer: "Uranium-235"
             }
         ]
     },
     getters: {
         currentQuestion: state => state.currentQuestion,
-        questions: state => state.questions
+        questions: state => state.questions,
+        score: state => state.score
     },
     mutations: {
         nextQuestion(state) {
@@ -35,6 +55,12 @@ export default new Vuex.Store({
             for (let i = 0; i < state.questions.length; i++) {
                 state.questions[i].choices = shuffle(state.questions[i].choices)
             }
+        },
+        resetScore(state) {
+            state.score = 0
+        },
+        addScore(state, amount) {
+            state.score = state.score + amount
         }
     },
     actions: {
@@ -44,6 +70,9 @@ export default new Vuex.Store({
         randomize({commit}) {
             commit("randomizeQuestions")
             commit("randomizeChoices")
+        },
+        addScore({commit}, payload) {
+            commit("addScore", payload)
         }
     }
 })

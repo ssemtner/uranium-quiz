@@ -1,13 +1,13 @@
 <template>
   <b-container>
-    <b-jumbotron><h1>What is the atomic number of uranium?</h1></b-jumbotron>
+    <b-jumbotron><h1>{{ text }}</h1></b-jumbotron>
     <br>
 
     <b-alert v-if="correct" variant="success" show="">Correct</b-alert>
     <b-alert v-else-if="correct === false" variant="warning" show="">Try Again</b-alert>
 
     <b-button
-        v-for="(choice) in options"
+        v-for="(choice) in choices"
         v-bind:key="choice"
         @click="choiceClick(choice)"
         variant="outline-info"
@@ -19,7 +19,26 @@
 
     <br>
 
-    <b-button v-if="correct" @click="next" block variant="primary" class="my-4">Next Question</b-button>
+    <div v-if="correct">
+      <b-button
+          v-if="currentQuestion === $store.state.questions.length - 1"
+          @click="finish"
+          variant="primary"
+          block
+          class="my-4"
+      >
+        Finish
+      </b-button>
+      <b-button
+          v-else
+          @click="next"
+          variant="primary"
+          block
+          class="my-4"
+      >
+        Next Question
+      </b-button>
+    </div>
   </b-container>
 </template>
 
@@ -28,15 +47,10 @@ import {mapGetters} from "vuex"
 
 export default {
   name: "Question",
+  props: ["text", "choices", "answer"],
   data() {
     return {
-      options: [
-        "Option 1",
-        "Option 2",
-        "Option 3"
-      ],
-      attempts: 0,
-      answer: "Option 2",
+      attempts: 1,
       correct: null,
     }
   },
@@ -48,6 +62,8 @@ export default {
       if (!this.correct) {
         if (choice === this.answer) {
           this.correct = true
+          this.$store.dispatch("addScore", Math.round(100 / this.attempts))
+          // this.$store.dispatch("addScore", 10)
         } else {
           this.attempts++
           this.correct = false
@@ -55,8 +71,12 @@ export default {
       }
     },
     next() {
+      this.correct = null
+      this.attempts = 1
       this.$store.commit("nextQuestion")
-      alert("next question")
+    },
+    finish() {
+      alert("finished")
     }
   }
 }

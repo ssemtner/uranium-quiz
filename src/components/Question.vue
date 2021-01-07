@@ -3,18 +3,29 @@
     <b-jumbotron><h1>What is the atomic number of uranium?</h1></b-jumbotron>
     <br>
 
-    <b-alert v-if="this.correct" variant="success" show="">Correct</b-alert>
-    <b-alert v-else-if="this.correct === false" variant="danger" show="">Try Again</b-alert>
+    <b-alert v-if="correct" variant="success" show="">Correct</b-alert>
+    <b-alert v-else-if="correct === false" variant="warning" show="">Try Again</b-alert>
 
-    <b-button v-for="(option, index) in this.options" :key="option" @click="onClick(index)" variant="outline-info"
-              size="lg" class="m-4">
-      {{ option }}
+    <b-button
+        v-for="(choice) in options"
+        v-bind:key="choice"
+        @click="choiceClick(choice)"
+        variant="outline-info"
+        size="lg"
+        class="m-4"
+    >
+      {{ choice }}
     </b-button>
 
+    <br>
+
+    <b-button v-if="correct" @click="next" block variant="primary" class="my-4">Next Question</b-button>
   </b-container>
 </template>
 
 <script>
+import {mapGetters} from "vuex"
+
 export default {
   name: "Question",
   data() {
@@ -25,21 +36,27 @@ export default {
         "Option 3"
       ],
       attempts: 0,
-      answer: 1,
+      answer: "Option 2",
       correct: null,
     }
   },
+  computed: {
+    ...mapGetters(['currentQuestion', 'questions'])
+  },
   methods: {
-    onClick(index) {
+    choiceClick(choice) {
       if (!this.correct) {
-        if (index === this.answer) {
+        if (choice === this.answer) {
           this.correct = true
-          alert(this.attempts)
         } else {
           this.attempts++
           this.correct = false
         }
       }
+    },
+    next() {
+      this.$store.commit("nextQuestion")
+      alert("next question")
     }
   }
 }

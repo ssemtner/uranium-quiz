@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <Question/>
+    <Quiz/>
   </div>
 </template>
 
 <script>
-import Question from "@/components/Question";
+import Quiz from "@/components/Quiz";
 
 export default {
   name: 'Home',
   components: {
-    Question,
+    Quiz,
   }
 }
 </script>

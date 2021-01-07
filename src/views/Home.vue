@@ -1,16 +1,12 @@
 <template>
   <div class="home">
-    <Quiz/>
+    <h1>Home</h1>
   </div>
 </template>
 
 <script>
-import Quiz from "@/components/Quiz";
 
 export default {
-  name: 'Home',
-  components: {
-    Quiz,
-  }
+  name: 'Home'
 }
 </script>

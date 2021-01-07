@@ -9,6 +9,7 @@ export default new Vuex.Store({
     state: {
         score: 0,
         currentQuestion: 0,
+        complete: false,
         questions: [
             {
                 text: "What is the atomic symbol of Uranium",
@@ -41,6 +42,7 @@ export default new Vuex.Store({
     },
     getters: {
         currentQuestion: state => state.currentQuestion,
+        complete: state => state.complete,
         questions: state => state.questions,
         score: state => state.score
     },
@@ -61,6 +63,9 @@ export default new Vuex.Store({
         },
         addScore(state, amount) {
             state.score = state.score + amount
+        },
+        complete(state) {
+            state.complete = true
         }
     },
     actions: {
@@ -73,6 +78,9 @@ export default new Vuex.Store({
         },
         addScore({commit}, payload) {
             commit("addScore", payload)
+        },
+        complete({commit}) {
+            commit("complete")
         }
     }
 })

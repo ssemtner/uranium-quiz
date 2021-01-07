@@ -1,10 +1,12 @@
 <template>
-  <b-container>
+  <div>
     <b-jumbotron><h1>{{ text }}</h1></b-jumbotron>
     <br>
 
     <b-alert v-if="correct" variant="success" show="">Correct</b-alert>
     <b-alert v-else-if="correct === false" variant="warning" show="">Try Again</b-alert>
+
+    <p>{{ time }}</p>
 
     <b-button
         v-for="(choice) in choices"
@@ -39,7 +41,7 @@
         Next Question
       </b-button>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -50,8 +52,21 @@ export default {
   props: ["text", "choices", "answer"],
   data() {
     return {
-      attempts: 1,
+      attempts: 0,
       correct: null,
+      time: 0
+    }
+  },
+  watch: {
+    time: {
+      immediate: true,
+      handler(value) {
+        if (value < 10 && !this.correct) {
+          setTimeout(() => {
+            this.time++
+          }, 1000)
+        }
+      }
     }
   },
   computed: {
@@ -62,8 +77,12 @@ export default {
       if (!this.correct) {
         if (choice === this.answer) {
           this.correct = true
-          this.$store.dispatch("addScore", Math.round(100 / this.attempts))
-          // this.$store.dispatch("addScore", 10)
+
+          let score = 100
+          score -= 20 * this.attempts
+          score -= 5 * this.time
+
+          this.$store.dispatch("addScore", score)
         } else {
           this.attempts++
           this.correct = false
@@ -73,10 +92,11 @@ export default {
     next() {
       this.correct = null
       this.attempts = 1
+      this.time = 0
       this.$store.commit("nextQuestion")
     },
     finish() {
-      alert("finished")
+      this.$store.dispatch("complete")
     }
   }
 }

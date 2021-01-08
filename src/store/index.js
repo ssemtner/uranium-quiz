@@ -30,6 +30,33 @@ export default new Vuex.Store({
                 answer: "92"
             },
             {
+                text: "What type of element is Uranium?",
+                choices: [
+                    "Metal",
+                    "Nonmetal",
+                    "Metalloid"
+                ],
+                answer: "Metal"
+            },
+            {
+                text: "Who discovered Uranium?",
+                choices: [
+                    "Marie Curie",
+                    "Enrico Fermi",
+                    "Martin Heinrich Klaproth"
+                ],
+                answer: "Martin Heinrich Klaproth"
+            },
+            {
+                text: "What is the atomic mass of uranium",
+                choices: [
+                    "238.02891",
+                    "128.39203",
+                    "532.23903"
+                ],
+                answer: "238.02891"
+            },
+            {
                 text: "Which isotope of Uranium is the most common in nuclear reactors?",
                 choices: [
                     "Uranium-232",
@@ -37,6 +64,15 @@ export default new Vuex.Store({
                     "Uranium-235"
                 ],
                 answer: "Uranium-235"
+            },
+            {
+                text: "What is Uranium not used for?",
+                choices: [
+                    "Coloring glass",
+                    "Powering submarines",
+                    "MOAB bomb"
+                ],
+                answer: "MOAB bomb"
             }
         ]
     },

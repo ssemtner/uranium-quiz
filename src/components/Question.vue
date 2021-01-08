@@ -6,7 +6,7 @@
     <b-alert v-if="correct" variant="success" show="">Correct</b-alert>
     <b-alert v-else-if="correct === false" variant="warning" show="">Try Again</b-alert>
 
-    <p>{{ time }}</p>
+    <h5>Time elapsed: {{ time }}</h5>
 
     <b-button
         v-for="(choice) in choices"
@@ -81,6 +81,7 @@ export default {
           let score = 100
           score -= 20 * this.attempts
           score -= 5 * this.time
+          score = score < 10 ? 10 : score
 
           this.$store.dispatch("addScore", score)
         } else {

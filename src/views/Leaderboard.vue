@@ -1,6 +1,5 @@
 <template>
   <b-container>
-    <b-button variant="outline-secondary" @click="refreshData">Reload</b-button>
 
     <b-table
         :items="scores"
@@ -11,6 +10,7 @@
         striped
         borderless
     />
+    <b-button varient="outline-secondary" @click="refreshData">Reload</b-button>
   </b-container>
 </template>
 
@@ -29,7 +29,7 @@ export default {
       db.collection("leaderboards").doc("primary").get().then(r => this.scores = r.data().scores)
     }
   },
-  created() {
+  mounted() {
     this.refreshData()
   },
 }

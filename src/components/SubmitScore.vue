@@ -13,9 +13,18 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 import {db} from "@/firebaseInit";
 
 const primaryLeaderboard = db.collection("leaderboards").doc("primary")
+const groups = [
+    "Uranium-238",
+    "Uranium-236",
+    "Uranium-235",
+    "Uranium-234",
+    "Uranium-233",
+    "Uranium-232"
+]
 
 export default {
   name: "SubmitScore",
@@ -25,19 +34,30 @@ export default {
       displayName: ""
     }
   },
+  computed: {
+    ...mapGetters(["score"])
+  },
   methods: {
     submit() {
+      let scoreRange = Math.round(this.$store.getters.questions.length / groups.length)
+
+      // let group = ""
+
+      console.log(scoreRange)
+
       let prevScores = []
+
       primaryLeaderboard.get().then(r => prevScores = r.data().scores)
           .then(() => {
             primaryLeaderboard.set({
               scores: [...prevScores, {
                 displayName: this.displayName,
-                score: this.$store.getters.score,
+                score: this.score,
                 group: "testing"
               }].slice(0, 100)
             })
           })
+      this.$router.replace("/leaderboard")
     }
   }
 }

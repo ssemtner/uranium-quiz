@@ -3,7 +3,7 @@
 
     <b-table
         :items="scores"
-        :fields="['score', 'displayName', 'group']"
+        :fields="['place', 'displayName', 'score']"
         sort-by="score"
         sort-desc
         per-page="0"
@@ -25,8 +25,18 @@ export default {
     }
   },
   methods: {
-    refreshData() {
-      db.collection("leaderboards").doc("primary").get().then(r => this.scores = r.data().scores)
+    async refreshData() {
+      // db.collection("leaderboards").doc("primary").get().then(r => this.scores = r.data().scores.map(e => {
+      //   e.score, e.displayName
+      // }))
+      let scores = await (await db.collection("leaderboards").doc("primary").get()).data().scores
+      this.scores = scores.map((e, i) => {
+        return {
+          score: e.score,
+          displayName: e.displayName,
+          place: i + 1
+        }
+      })
     }
   },
   mounted() {

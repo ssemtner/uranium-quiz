@@ -17,14 +17,6 @@ import {mapGetters} from "vuex"
 import {db} from "@/firebaseInit";
 
 const primaryLeaderboard = db.collection("leaderboards").doc("primary")
-const groups = [
-    "Uranium-238",
-    "Uranium-236",
-    "Uranium-235",
-    "Uranium-234",
-    "Uranium-233",
-    "Uranium-232"
-]
 
 export default {
   name: "SubmitScore",
@@ -38,26 +30,26 @@ export default {
     ...mapGetters(["score"])
   },
   methods: {
-    submit() {
-      let scoreRange = Math.round(this.$store.getters.questions.length / groups.length)
+    async submit() {
+      try {
+        let prevScores = await (await primaryLeaderboard.get()).data().scores
 
-      // let group = ""
+        await primaryLeaderboard.set({
+          scores: [...prevScores, {
+            displayName: this.displayName,
+            score: this.score
+          }].slice(0, 100)
+        })
+      } catch (e) {
+        await primaryLeaderboard.set({
+          scores: [{
+            displayName: this.displayName,
+            score: this.score
+          }]
+        })
+      }
 
-      console.log(scoreRange)
-
-      let prevScores = []
-
-      primaryLeaderboard.get().then(r => prevScores = r.data().scores)
-          .then(() => {
-            primaryLeaderboard.set({
-              scores: [...prevScores, {
-                displayName: this.displayName,
-                score: this.score,
-                group: "testing"
-              }].slice(0, 100)
-            })
-          })
-      this.$router.replace("/leaderboard")
+      await this.$router.replace("/leaderboard")
     }
   }
 }

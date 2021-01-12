@@ -73,6 +73,15 @@ export default new Vuex.Store({
                     "MOAB bomb"
                 ],
                 answer: "MOAB bomb"
+            },
+            {
+                text: "What was Uranium named after?",
+                choices: [
+                    "A dog",
+                    "A planet",
+                    "A friend"
+                ],
+                answer: "A planet"
             }
         ]
     },
@@ -80,6 +89,7 @@ export default new Vuex.Store({
         currentQuestion: state => state.currentQuestion,
         complete: state => state.complete,
         questions: state => state.questions,
+        count: state => state.questions.length,
         score: state => state.score
     },
     mutations: {

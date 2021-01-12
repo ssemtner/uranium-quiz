@@ -49,6 +49,7 @@ export default {
         })
       }
 
+      this.$store.commit("reset")
       await this.$router.replace("/leaderboard")
     }
   }

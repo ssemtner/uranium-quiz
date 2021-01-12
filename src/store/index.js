@@ -104,8 +104,10 @@ export default new Vuex.Store({
                 state.questions[i].choices = shuffle(state.questions[i].choices)
             }
         },
-        resetScore(state) {
+        reset(state) {
             state.score = 0
+            state.currentQuestion = 0
+            state.complete = false
         },
         addScore(state, amount) {
             state.score = state.score + amount
@@ -127,6 +129,9 @@ export default new Vuex.Store({
         },
         complete({commit}) {
             commit("complete")
+        },
+        reset({commit}) {
+            commit("reset")
         }
     }
 })

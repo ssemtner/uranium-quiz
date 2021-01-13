@@ -29,7 +29,12 @@ export default {
       // db.collection("leaderboards").doc("primary").get().then(r => this.scores = r.data().scores.map(e => {
       //   e.score, e.displayName
       // }))
-      let scores = await (await db.collection("leaderboards").doc("primary").get()).data().scores
+      const scores = await (await db.collection("leaderboards").doc("primary").get()).data().scores
+      scores.sort((a, b) => {
+        if (a.score < b.score) return 1
+        if (a.score > b.score) return -1
+        return 0
+      })
       this.scores = scores.map((e, i) => {
         return {
           score: e.score,
